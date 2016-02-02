@@ -1,8 +1,9 @@
 $(document).ready( function () {
-  $('#calendarContainer').fullCalendar({
+  $('#calendar').fullCalendar({
     dayClick: function(date, jsEvent, view) {
-      debugger;
       alert('a day has been clicked!');
     }
   });
+
+  $('#calendar').fullCalendar('option', 'height', $('.nav-left')[0].offsetHeight);
 });
