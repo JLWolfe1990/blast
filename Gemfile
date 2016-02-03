@@ -16,6 +16,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'puma'
 gem 'rspec-rails'
 gem 'devise'
+gem 'font-awesome-rails'
 
 group :development, :test do
   gem 'byebug'
