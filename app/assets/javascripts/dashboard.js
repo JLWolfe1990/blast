@@ -1,9 +1,58 @@
 $(document).ready( function () {
+  //handle CSS
+  $('#calendar').fullCalendar('option', 'height', $('.nav-left')[0].offsetHeight);
+
+  //setup models
+  var Event = new function() {
+    this.newPath = $("#newEventPath").html();
+    this.createPath = $("#eventCreatePath").html();
+    this.new = function(date){
+      return $.ajax({
+        method: 'GET',
+        url: Event.newPath,
+        data: {date: date}
+      });
+    };
+    this.create = function(formData){
+      return $.ajax({
+        method: 'POST',
+        url: Event.createPath,
+        data: formData
+      })
+    };
+    this.options = {allDay: true};
+  };
+
+  //setup controller
   $('#calendar').fullCalendar({
+    events: jQuery.parseJSON($("#eventsJson").html()),
     dayClick: function(date, jsEvent, view) {
-      alert('a day has been clicked!');
+      Event.new(date).done(function(data){
+        $(".formDrop").html( data );
+        $('#newEvent').modal('toggle');
+        $(".formDrop form").submit( function(event){
+          document.submitEvent();
+          event.preventDefault();
+        });
+      });
+    },
+    eventClick: function(event, element) {
+      event.title = "CLICKED!";
+
+      $('#calendar').fullCalendar('updateEvent', event);
     }
   });
 
-  $('#calendar').fullCalendar('option', 'height', $('.nav-left')[0].offsetHeight);
+  this.submitEvent = function () {
+    Event.create( $(".formDrop form").serialize()).done(function (data){
+      if(data instanceof Object) {
+        //success
+        $('#newEvent').modal('toggle');
+        $('#calendar').fullCalendar('renderEvent', jQuery.extend(data, Event.options));
+      } else {
+        //invalid
+        $(".formDrop").html( data );
+      }
+    });
+  };
 });

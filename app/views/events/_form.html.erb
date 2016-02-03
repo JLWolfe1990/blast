@@ -1,0 +1,6 @@
+<%= simple_form_for @event do |f| %>
+  <%= f.input :date, as: :hidden %>
+  <%= f.association :user, as: :hidden %>
+  <%= f.input :event_type, as: :select, collection: Event.event_types  %>
+  <%= f.input :title %>
+<% end %>

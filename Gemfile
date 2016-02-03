@@ -17,6 +17,7 @@ gem 'puma'
 gem 'rspec-rails'
 gem 'devise'
 gem 'font-awesome-rails'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug'
