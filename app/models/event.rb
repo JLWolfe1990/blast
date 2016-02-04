@@ -5,6 +5,6 @@ class Event < ActiveRecord::Base
   validates :event_type, presence: true
 
   def self.event_types
-    %w(Anniversary Birthday)
+    %w(Anniversary Birthday Holiday)
   end
 end

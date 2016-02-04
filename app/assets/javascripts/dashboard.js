@@ -43,6 +43,9 @@ $(document).ready( function () {
         case "Birthday":
           event.className = "birthday";
           break;
+        case "Holiday":
+          event.className = "holiday";
+          break;
         default :
           event.className = "other";
       }
@@ -64,7 +67,10 @@ $(document).ready( function () {
           icon = "<i class='fa fa-diamond'></i>";
           break;
         case "Birthday":
-          icon = "<i class='fa fa-fast-forward'></i>";
+          icon = "<i class='fa fa-birthday-cake'></i>";
+          break;
+        case "Holiday":
+          icon = "<i class='fa fa-tree'></i>";
           break;
         default :
           icon = "<i class='fa fa-thumbs-up'></i>";
