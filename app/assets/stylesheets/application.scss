@@ -18,10 +18,18 @@
 @import "bootstrap";
 @import "navbar";
 @import "fullcalendar";
-@import "fullcalendar.print";
 @import "dashboard";
 @import "font-awesome";
+@import "fullcalendar-overrides";
 
 .hidden {
   display: hidden;
+}
+
+.anniversary {
+  background-color: rgba(183, 45, 45, 0.3) !important;
+}
+
+.birthday {
+  background-color: rgba(103, 178, 73, 0.3) !important;
 }

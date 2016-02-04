@@ -38,13 +38,13 @@ $(document).ready( function () {
       event.allDay = true;
       switch (event.event_type) {
         case "Anniversary":
-          event.color = "red";
+          event.className = "anniversary";
           break;
         case "Birthday":
-          event.color = "black";
+          event.className = "birthday";
           break;
         default :
-          event.color = "green";
+          event.className = "other";
       }
       return event;
     };
@@ -88,6 +88,10 @@ $(document).ready( function () {
     },
     windowResize: function(view){
       calendar.resize();
+    },
+    eventColor: function(){
+      debugger;
+      true;
     }
   });
 
