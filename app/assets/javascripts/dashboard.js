@@ -3,29 +3,56 @@ $(document).ready( function () {
   $('#calendar').fullCalendar('option', 'height', $('.nav-left')[0].offsetHeight);
 
   //setup models
-  var Event = new function() {
-    this.newPath = $("#newEventPath").html();
-    this.createPath = $("#eventCreatePath").html();
-    this.new = function(date){
+  var Calendar = function() {
+    this.events = function(){
+      return jQuery.parseJSON($("#eventsJson").html()).map(function(obj){
+        return calendar.wrapEvent(obj);
+      });
+    };
+    this.wrapEvent = function(event) {
+      event.allDay = true;
+      switch (event.event_type) {
+        case "Anniversary":
+          event.color = "red";
+          break;
+        case "Birthday":
+          event.color = "black";
+          break;
+        default :
+          event.color = "green";
+      }
+      return event;
+    };
+    this.newEvent = function(date){
       return $.ajax({
         method: 'GET',
-        url: Event.newPath,
+        url: calendar.newEventPath(),
         data: {date: date}
       });
     };
-    this.create = function(formData){
+    this.newEventPath = function(){
+      return $("#newEventPath").html();
+    };
+    this.createEventPath = function(){
+      return $("#eventCreatePath").html();
+    };
+    this.createEvent = function(formData){
       return $.ajax({
         method: 'POST',
-        url: Event.createPath,
+        url: calendar.createEventPath(),
         data: formData
       })
     };
-    this.options = {allDay: true};
   };
+  var Event = function() {
+    this.createPath = $("#eventCreatePath").html();
+  };
+
+  var calendar = new Calendar();
 
   //setup controller
   $('#calendar').fullCalendar({
-    events: jQuery.parseJSON($("#eventsJson").html()),
+    events: calendar.events(),
     eventRender: function (event, element) {
       currentTitle = element.find(".fc-event-title");
       var icon = ""
@@ -42,7 +69,7 @@ $(document).ready( function () {
       currentTitle.html(icon + " " + currentTitle.html());
     },
     dayClick: function(date, jsEvent, view) {
-      Event.new(date).done(function(data){
+      calendar.newEvent(date).done(function(data){
         $(".formDrop").html( data );
         $('#newEvent').modal('toggle');
         $(".formDrop form").submit( function(event){
@@ -59,14 +86,15 @@ $(document).ready( function () {
   });
 
   this.submitEvent = function () {
-    Event.create( $(".formDrop form").serialize()).done(function (data){
-      if(data instanceof Object) {
+    calendar.createEvent( $(".formDrop form").serialize()).done(function (event){
+      if(event instanceof Object) {
         //success
         $('#newEvent').modal('toggle');
-        $('#calendar').fullCalendar('renderEvent', jQuery.extend(data, Event.options));
+        //add colors here
+        $('#calendar').fullCalendar('renderEvent', calendar.wrapEvent(event));
       } else {
         //invalid
-        $(".formDrop").html( data );
+        $(".formDrop").html( event );
       }
     });
   };
