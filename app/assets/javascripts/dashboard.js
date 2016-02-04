@@ -58,6 +58,11 @@ $(document).ready( function () {
 
   //setup view logic
   $('#calendar').fullCalendar({
+    header: {
+      left: 'prev today',
+      center: 'title',
+      right: 'next'
+    },
     events: calendar.events(),
     eventRender: function (event, element) {
       currentTitle = element.find(".fc-event-title");
