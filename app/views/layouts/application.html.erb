@@ -7,15 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="nav-left">
-    <% if current_user %>
-      <%= link_to destroy_user_session_path(),method: :delete do %><span class="glyphicon glyphicon-log-out"></span><% end %>
-    <% else %>
-      <%= link_to new_user_session_path() do %><span class="glyphicon glyphicon-log-in"></span><% end %>
-    <% end %>
-  </div>
   <div class="container-fluid">
     <div class="row">
+      <div class="col-xs-1 nav-left">
+        <div class="slide-menu">
+          <% if current_user %>
+            <%= link_to destroy_user_session_path(),method: :delete do %><span class="glyphicon glyphicon-log-out"></span><% end %>
+          <% else %>
+            <%= link_to new_user_session_path() do %><span class="glyphicon glyphicon-log-in"></span><% end %>
+          <% end %>
+        </div>
+      </div>
       <div class="col-xs-11">
         <%= yield %>
       </div>
