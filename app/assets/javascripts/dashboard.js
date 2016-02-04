@@ -26,6 +26,21 @@ $(document).ready( function () {
   //setup controller
   $('#calendar').fullCalendar({
     events: jQuery.parseJSON($("#eventsJson").html()),
+    eventRender: function (event, element) {
+      currentTitle = element.find(".fc-event-title");
+      var icon = ""
+      switch (event.event_type) {
+        case "Anniversary":
+          icon = "<i class='fa fa-diamond'></i>";
+          break;
+        case "Birthday":
+          icon = "<i class='fa fa-fast-forward'></i>";
+          break;
+        default :
+          icon = "<i class='fa fa-thumbs-up'></i>";
+      }
+      currentTitle.html(icon + " " + currentTitle.html());
+    },
     dayClick: function(date, jsEvent, view) {
       Event.new(date).done(function(data){
         $(".formDrop").html( data );
