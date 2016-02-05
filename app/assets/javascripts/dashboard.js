@@ -2,9 +2,14 @@ $(document).ready( function () {
   //setup models
   var Calendar = function() {
     this.events = function(){
-      return jQuery.parseJSON($("#eventsJson").html()).map(function(obj){
-        return new Event(obj);
-      });
+      elements = $("#eventsJson").html();
+      if(elements != undefined) {
+        return jQuery.parseJSON(elements).map(function(obj){
+          return new Event(obj);
+        });
+      } else {
+        return true;
+      }
     };
     this.newEvent = function(date){
       return $.ajax({
