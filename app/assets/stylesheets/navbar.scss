@@ -5,20 +5,30 @@
 }
 
 .slide-menu {
-  margin-top: 12pt;
+  padding-top: 12pt;
+  margin-top: 50px;
   margin-right: 12pt;
-  background-color: #CECECE;
   height: inherit;
   border-radius: 0 25px 25px 0;
   width: 60px;
+  -webkit-box-shadow: inset -55px 0px 98px 45px rgba(138,176,209,0.76);
+  -moz-box-shadow: inset -55px 0px 98px 45px rgba(138,176,209,0.76);
+  box-shadow: inset -55px 0px 98px 45px rgba(138,176,209,0.76);
+  height: -o-calc(100% - 100px); /* opera */
+  height: -webkit-calc(100% - 100px); /* google, safari */
+  height: -moz-calc(100% - 100px); /* firefox */
 }
 
 .slide-menu i {
   float: right;
+  margin-bottom: 12pt;
 }
 
 .menu-label {
   float: right;
   width: 75px;
   display: none;
+  font-family: "calibri", Garamond, 'Comic Sans';
+  font-size: 14pt;
+  font-weight: bolder;
 }
