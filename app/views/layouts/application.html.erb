@@ -11,10 +11,16 @@
     <div class="row">
       <div class="col-xs-1 nav-left">
         <div class="slide-menu">
+          <div style="float:right; width: 20px; height: 1px;"></div>
+          <i class="fa fa-ellipsis-h fa-2x" onclick="toggleSlideMenu()"></i>
+          <div style="clear:both;"></div>
           <% if current_user %>
-            <%= link_to destroy_user_session_path(),method: :delete do %><span class="glyphicon glyphicon-log-out"></span><% end %>
+            <div style="float:right; width: 15px; height: 1px;"></div>
+            <%= link_to destroy_user_session_path(),method: :delete do %><i class="fa fa-sign-out fa-2x"></i><% end %>
+            <div class="menu-label">sign out</div>
           <% else %>
-            <%= link_to new_user_session_path() do %><span class="glyphicon glyphicon-log-in"></span><% end %>
+            <div style="float:right; width: 20px; height: 1px;"></div>
+            <%= link_to new_user_session_path() do %><i class="fa fa-sign-in fa-2x"></i><% end %>
           <% end %>
         </div>
       </div>

@@ -27,7 +27,6 @@ $(document).ready( function () {
       })
     };
     this.resize = function(){
-      console.log("resize called");
       return $('#calendar').fullCalendar('option', 'height', $('.nav-left').height());
     };
   };

@@ -1,6 +1,24 @@
 .nav-left {
-  background-color: #CECECE;
   float:left;
-  min-height: 100vh;
-  padding: 6px 6px 0 6px;
+  height: 100vh;
+  padding: 0;
+}
+
+.slide-menu {
+  margin-top: 12pt;
+  margin-right: 12pt;
+  background-color: #CECECE;
+  height: inherit;
+  border-radius: 0 25px 25px 0;
+  width: 60px;
+}
+
+.slide-menu i {
+  float: right;
+}
+
+.menu-label {
+  float: right;
+  width: 75px;
+  display: none;
 }
