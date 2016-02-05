@@ -28,6 +28,15 @@ $(document).ready(function(){
   var slideMenu = new SlideMenu('.slide-menu');
   var slideMenuIcons = new SlideMenu('.slide-menu');
 
+  document.logout = function(path){
+    $.ajax({
+      type: "DELETE",
+      url: path
+    }).done(function() {
+      window.location = '/';
+    });
+  };
+
   document.toggleSlideMenu = function () {
     slideMenu.toggle('.slide-menu');
     slideMenuIcons.toggle('.slide-menu i');
