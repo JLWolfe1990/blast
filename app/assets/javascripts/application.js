@@ -17,4 +17,5 @@
 //= require moment.min
 //= require dashboard
 //= require fullcalendar.min
+//= require navbar
 //= require_tree .
