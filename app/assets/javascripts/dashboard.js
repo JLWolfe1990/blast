@@ -34,7 +34,14 @@ $(document).ready( function () {
     this.editEvent = function(event){
       return $.ajax({
         method: 'GET',
-        url: event.editPath
+        url: event.edit_path
+      });
+    };
+    this.updateEvent = function(formData){
+      return $.ajax({
+        method: 'PUT',
+        url: document.event.update_path,
+        data: formData
       });
     };
     this.resize = function(){
@@ -100,18 +107,30 @@ $(document).ready( function () {
           document.submitEvent();
           event.preventDefault();
         });
+        document.getElementById("submitButton").onclick = function () {
+          document.submitEvent();
+        };
       });
     },
     eventClick: function(event, element) {
-      calendar.editEvent(event);
-      $('#calendar').fullCalendar('updateEvent', event);
+      calendar.editEvent(event).done( function(data) {
+        $(".formDrop").html( data );
+        $('#newEvent').modal('toggle');
+        $(".formDrop form").submit( function(event){
+          document.submitUpdateEvent();
+          event.preventDefault();
+        });
+        document.getElementById("submitButton").onclick = function () {
+          document.submitUpdateEvent();
+        };
+      });
+      document.event = event;
     },
     windowResize: function(view){
       calendar.resize();
     },
     eventColor: function(){
-      debugger;
-      true;
+      return true;
     }
   });
 
@@ -123,6 +142,23 @@ $(document).ready( function () {
         $('#newEvent').modal('toggle');
         //add colors here
         $('#calendar').fullCalendar('renderEvent', new Event(event));
+      } else {
+        //invalid
+        $(".formDrop").html( event );
+      }
+    });
+  };
+
+  document.submitUpdateEvent = function () {
+    calendar.updateEvent( $(".formDrop form").serialize()).done(function (event){
+      if(event instanceof Object) {
+        //success
+        $('#newEvent').modal('toggle');
+        //add colors here
+
+        $('#calendar').fullCalendar('updateEvent', new Event(jQuery.extend(document.event, event)));
+
+        document.event = undefined;
       } else {
         //invalid
         $(".formDrop").html( event );

@@ -6,7 +6,7 @@ RSpec.describe EventSerializer, :type => :serializer do
   end
 
   describe :attributes do
-    [:edit_path, :id, :title, :date, :event_type].each do |attr|
+    [:create_path, :edit_path, :update_path, :id, :title, :date, :event_type].each do |attr|
       it "should include the #{attr} attribute" do
         expect( event_json[attr] ).to_not be_blank
       end
