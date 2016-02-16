@@ -1,15 +1,15 @@
 $(document).ready( function () {
   //setup models
   var Calendar = function() {
-    this.events = function(){
+    this.events = [];
+    this.getEvents = function(){
       elements = $("#eventsJson").html();
       if(elements != undefined) {
-        return jQuery.parseJSON(elements).map(function(obj){
+        this.events = jQuery.parseJSON(elements).map(function(obj){
           return new Event(obj);
         });
-      } else {
-        return true;
       }
+      return this.events;
     };
     this.newEvent = function(date){
       return $.ajax({
@@ -30,6 +30,12 @@ $(document).ready( function () {
         url: calendar.createEventPath(),
         data: formData
       })
+    };
+    this.editEvent = function(event){
+      return $.ajax({
+        method: 'GET',
+        url: event.editPath
+      });
     };
     this.resize = function(){
       return $('#calendar').fullCalendar('option', 'height', $('.nav-left').height());
@@ -67,7 +73,7 @@ $(document).ready( function () {
       center: 'title',
       right: 'next'
     },
-    events: calendar.events(),
+    events: calendar.getEvents(),
     eventRender: function (event, element) {
       currentTitle = element.find(".fc-event-title");
       var icon = ""
@@ -97,8 +103,7 @@ $(document).ready( function () {
       });
     },
     eventClick: function(event, element) {
-      event.title = "CLICKED!";
-
+      calendar.editEvent(event);
       $('#calendar').fullCalendar('updateEvent', event);
     },
     windowResize: function(view){

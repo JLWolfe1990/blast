@@ -18,6 +18,7 @@ gem 'rspec-rails'
 gem 'devise'
 gem 'font-awesome-rails'
 gem 'simple_form'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'byebug'
@@ -31,5 +32,6 @@ end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
