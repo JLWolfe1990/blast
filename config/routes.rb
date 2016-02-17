@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   root to: 'users#dashboard'
 
-  resources :events, only:[:new, :create]
+  resources :events, except: [:show]
 end

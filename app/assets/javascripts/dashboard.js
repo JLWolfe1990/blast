@@ -1,76 +1,14 @@
 $(document).ready( function () {
-  //setup models
-  var Calendar = function() {
-    this.events = function(){
-      elements = $("#eventsJson").html();
-      if(elements != undefined) {
-        return jQuery.parseJSON(elements).map(function(obj){
-          return new Event(obj);
-        });
-      } else {
-        return true;
-      }
-    };
-    this.newEvent = function(date){
-      return $.ajax({
-        method: 'GET',
-        url: calendar.newEventPath(),
-        data: {date: date}
-      });
-    };
-    this.newEventPath = function(){
-      return $("#newEventPath").html();
-    };
-    this.createEventPath = function(){
-      return $("#eventCreatePath").html();
-    };
-    this.createEvent = function(formData){
-      return $.ajax({
-        method: 'POST',
-        url: calendar.createEventPath(),
-        data: formData
-      })
-    };
-    this.resize = function(){
-      return $('#calendar').fullCalendar('option', 'height', $('.nav-left').height());
-    };
-  };
-
-  var Event = function(event) {
-    this.source = event;
-    var init = function(event) {
-      event.allDay = true;
-      switch (event.event_type) {
-        case "Anniversary":
-          event.className = "anniversary";
-          break;
-        case "Birthday":
-          event.className = "birthday";
-          break;
-        case "Holiday":
-          event.className = "holiday";
-          break;
-        default :
-          event.className = "other";
-      }
-      return event;
-    };
-    return init(event);
-  };
-
-  var calendar = new Calendar();
-
-  //setup view logic
-  $('#calendar').fullCalendar({
+  //instantiate calendar
+  document.calendar = new Calendar({
     header: {
       left: 'prev today',
       center: 'title',
       right: 'next'
     },
-    events: calendar.events(),
     eventRender: function (event, element) {
-      currentTitle = element.find(".fc-event-title");
-      var icon = ""
+      var currentTitle = element.find(".fc-event-title");
+      var icon = "";
       switch (event.event_type) {
         case "Anniversary":
           icon = "<i class='fa fa-diamond'></i>";
@@ -87,43 +25,74 @@ $(document).ready( function () {
       currentTitle.html(icon + " " + currentTitle.html());
     },
     dayClick: function(date, jsEvent, view) {
-      calendar.newEvent(date).done(function(data){
-        $(".formDrop").html( data );
-        $('#newEvent').modal('toggle');
-        $(".formDrop form").submit( function(event){
-          document.submitEvent();
-          event.preventDefault();
-        });
-      });
+      document.calendar.getNewEventForm(date).done( document.handleFormContentUpdate );
     },
     eventClick: function(event, element) {
-      event.title = "CLICKED!";
-
-      $('#calendar').fullCalendar('updateEvent', event);
+      document.calendar.getEditEventForm(event).done( document.handleFormContentUpdate );
+      document.event = event;
     },
     windowResize: function(view){
-      calendar.resize();
-    },
-    eventColor: function(){
-      debugger;
-      true;
+      document.calendar.resize();
     }
   });
 
-  //setup controller
   document.submitEvent = function () {
-    calendar.createEvent( $(".formDrop form").serialize()).done(function (event){
+    document.calendar.createEvent( $(".formDrop form").serialize()).done(function (event){
       if(event instanceof Object) {
         //success
-        $('#newEvent').modal('toggle');
+        document.hideModalContents();
         //add colors here
-        $('#calendar').fullCalendar('renderEvent', new Event(event));
+        $('#calendar').fullCalendar('renderEvent', new CalendarEvent(event));
       } else {
         //invalid
-        $(".formDrop").html( event );
+        document.setModalContents(event);
       }
     });
   };
 
-  calendar.resize();
+  document.submitUpdateEvent = function () {
+    document.calendar.updateEvent( document.getForm().serialize()).done(function (event){
+      if(event instanceof Object) {
+        //success
+        document.hideModalContents();
+        //add colors here
+
+        $('#calendar').fullCalendar('updateEvent', new CalendarEvent(jQuery.extend(document.event, event)));
+
+        document.event = undefined;
+      } else {
+        //invalid
+        document.setModalContents(event);
+      }
+    });
+  };
+
+  document.handleFormContentUpdate = function(contents) {
+    document.setModalContents(contents);
+    document.showModalContents();
+    document.getForm().submit( function(event){
+      $("#submitButton").click();
+      event.preventDefault();
+    });
+  };
+
+  //helpers
+  document.setModalContents = function(contents){
+    return $("#newEvent").html( contents );
+  };
+
+  document.showModalContents = function(){
+    return $('#newEvent').modal('show');
+  };
+
+  document.hideModalContents = function(){
+    return $('#newEvent').modal('hide');
+  };
+
+  document.getForm = function () {
+    return $("#newEvent form");
+  };
+
+  //fit calendar to container
+  document.calendar.resize();
 });
