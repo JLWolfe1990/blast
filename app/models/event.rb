@@ -13,11 +13,14 @@ class Event < ActiveRecord::Base
     %w(Anniversary Birthday Holiday)
   end
 
-  #TODO: allow delete
   def alert_requests_attributes=(attr)
     attr.each do |array|
       if elem = alert_requests[array[0].to_i]
-        alert_requests[array[0].to_i].update_attributes array[1]
+        if array[1].values.include?('remove')
+          alert_requests[array[0].to_i].destroy
+        else
+          alert_requests[array[0].to_i].update_attributes array[1]
+        end
       else
         alert_requests.create array[1]
       end

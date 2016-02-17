@@ -33,6 +33,6 @@ class EventsController < ActionController::Base
   private
 
   def object_params
-    params.require(:event).permit(:user_id, :title, :date, :event_type, :alert_requests_attributes => [:offset_in_seconds]);
+    params.require(:event).permit(:user_id, :title, :date, :event_type, :alert_requests_attributes => [:id, :offset_in_seconds]);
   end
 end

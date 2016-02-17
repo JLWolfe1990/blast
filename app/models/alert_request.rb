@@ -8,6 +8,7 @@ class AlertRequest < ActiveRecord::Base
 
   def self.to_select
     [
+      ["remove", 'remove'],
       ["1 day", 1.day.seconds],
       ["2 days", 2.days.seconds],
       ["3 day", 3.days.seconds],
