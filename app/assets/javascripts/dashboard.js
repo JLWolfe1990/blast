@@ -28,7 +28,7 @@ $(document).ready( function () {
       document.calendar.getNewEventForm(date).done( document.handleFormContentUpdate );
     },
     eventClick: function(event, element) {
-      document.calendar.getEditEventForm(event).done( document.handleFormContentUpdate );
+      document.calendar.getEditEventForm(event, false).done( document.handleFormContentUpdate );
       document.event = event;
     },
     windowResize: function(view){
@@ -91,6 +91,10 @@ $(document).ready( function () {
 
   document.getForm = function () {
     return $("#newEvent form");
+  };
+
+  document.addAlertRequest = function () {
+    document.calendar.getEditEventForm(document.event, true).done( document.handleFormContentUpdate );
   };
 
   //fit calendar to container

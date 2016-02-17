@@ -1,6 +1,9 @@
 class EventsController < ActionController::Base
   def edit
     @event = Event.find(params.fetch(:id))
+    if params[:adding_alert_requests]
+      @event.alert_requests.build
+    end
     render 'edit', layout:false
   end
 
@@ -30,6 +33,6 @@ class EventsController < ActionController::Base
   private
 
   def object_params
-    params.require(:event).permit(:user_id, :title, :date, :event_type);
+    params.require(:event).permit(:user_id, :title, :date, :event_type, :alert_requests_attributes => [:offset_in_seconds]);
   end
 end

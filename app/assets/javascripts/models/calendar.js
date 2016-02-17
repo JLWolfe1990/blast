@@ -21,11 +21,19 @@ var Calendar = function Calendar(initObject) {
       data: {date: date}
     });
   };
-  this.getEditEventForm = function(event){
-    return $.ajax({
-      method: 'GET',
-      url: event.edit_path
-    });
+  this.getEditEventForm = function(event, addMore){
+    if( addMore ) {
+      return $.ajax({
+        method: 'GET',
+        url: event.edit_path,
+        data: {adding_alert_requests:true}
+      });
+    } else {
+      return $.ajax({
+        method: 'GET',
+        url: event.edit_path
+      });
+    }
   };
   this.getNewEventPath = function(){
     return $("#newEventPath").html();

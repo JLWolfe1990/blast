@@ -6,6 +6,7 @@
     </div>
     <div class="modal-body">
       <%= render partial: "form" %>
+      <a href="#" onclick="addAlertRequest('<%= events_path(@event) %>')">Add More</a>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

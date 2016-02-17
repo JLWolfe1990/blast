@@ -3,4 +3,7 @@
   <%= f.association :user, as: :hidden %>
   <%= f.input :event_type, as: :select, collection: Event.event_types  %>
   <%= f.input :title %>
+  <%= f.simple_fields_for :alert_requests do |ff| %>
+    <%= ff.input :offset_in_seconds, as: :select, collection: AlertRequest.to_select %>
+  <% end %>
 <% end %>
