@@ -3,6 +3,8 @@ class AlertRequest < ActiveRecord::Base
 
   belongs_to :event
 
+  has_one :user, through: :event
+
   validates :offset_in_seconds, presence: true, numericality: true
   validates :event, presence: true
 

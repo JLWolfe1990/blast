@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :events, dependent: :destroy
+  has_many :alerts, through: :events
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217053344) do
+ActiveRecord::Schema.define(version: 20160227221651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 20160217053344) do
   end
 
   add_index "alert_requests", ["event_id"], name: "index_alert_requests_on_event_id", using: :btree
+
+  create_table "alerts", force: :cascade do |t|
+    t.integer  "alert_request_id"
+    t.text     "body"
+    t.string   "subject"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alerts", ["alert_request_id"], name: "index_alerts_on_alert_request_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "event_type"
@@ -54,4 +64,5 @@ ActiveRecord::Schema.define(version: 20160217053344) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "alert_requests", "events"
+  add_foreign_key "alerts", "alert_requests"
 end
