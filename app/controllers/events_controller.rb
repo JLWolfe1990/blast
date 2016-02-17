@@ -1,7 +1,7 @@
 class EventsController < ActionController::Base
   def edit
     @event = Event.find(params.fetch(:id))
-    render partial: 'form', layout:false
+    render 'edit', layout:false
   end
 
   def update
@@ -9,13 +9,13 @@ class EventsController < ActionController::Base
     if @event.update_attributes(object_params)
       render json: @event, root:false
     else
-      render partial: 'form', layout:false
+      render 'edit', layout:false
     end
   end
 
   def new
     @event = Event.new user: current_user, date: params[:date]
-    render partial: 'form', layout:false
+    render 'new', layout:false
   end
 
   def create
@@ -23,7 +23,7 @@ class EventsController < ActionController::Base
     if @event.save
       render json: @event, root:false
     else
-      render partial: 'form', layout:false
+      render 'new', layout:false
     end
   end
 
