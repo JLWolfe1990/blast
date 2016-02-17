@@ -1,4 +1,4 @@
-# blast
+# Blast
 
 ##Purpose
 
