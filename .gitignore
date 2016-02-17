@@ -41,3 +41,4 @@ build/
 !/log/.keep
 /tmp
 .idea
+.byebug_history
