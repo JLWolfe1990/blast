@@ -25,7 +25,8 @@ $(document).ready( function () {
       currentTitle.html(icon + " " + currentTitle.html());
     },
     dayClick: function(date, jsEvent, view) {
-      document.calendar.getNewEventForm(date).done( document.handleFormContentUpdate );
+      document.event = {date: date};
+      document.calendar.getNewEventForm(document.event, false).done( document.handleFormContentUpdate );
     },
     eventClick: function(event, element) {
       document.calendar.getEditEventForm(event, false).done( document.handleFormContentUpdate );
@@ -37,7 +38,7 @@ $(document).ready( function () {
   });
 
   document.submitEvent = function () {
-    document.calendar.createEvent( $(".formDrop form").serialize()).done(function (event){
+    document.calendar.createEvent( $("#newEvent form").serialize()).done(function (event){
       if(event instanceof Object) {
         //success
         document.hideModalContents();
@@ -78,7 +79,11 @@ $(document).ready( function () {
 
   //helpers
   document.setModalContents = function(contents){
-    return $("#newEvent").html( contents );
+    document.backdrop = $(".modal-backdrop").detach();
+    $("#newEvent").html( contents );
+    $('body').append(document.backdrop);
+
+    return $("#newEvent");
   };
 
   document.showModalContents = function(){
@@ -93,8 +98,13 @@ $(document).ready( function () {
     return $("#newEvent form");
   };
 
-  document.addAlertRequest = function () {
-    document.calendar.getEditEventForm(document.event, true).done( document.handleFormContentUpdate );
+  document.addAlertRequest = function (action) {
+    if(action == 'new') {
+      return document.calendar.getNewEventForm(document.event, true).done( document.handleFormContentUpdate );
+
+    } else {
+      return document.calendar.getEditEventForm(document.event, true).done( document.handleFormContentUpdate );
+    }
   };
 
   //fit calendar to container

@@ -14,11 +14,14 @@ var Calendar = function Calendar(initObject) {
   this.getSourceElement = function () {
     return $("#calendar");
   };
-  this.getNewEventForm = function(date){
+  this.getNewEventForm = function(event, addAlertRequest){
+    if(addAlertRequest) {
+      event.adding_alert_requests = addAlertRequest;
+    }
     return $.ajax({
       method: 'GET',
       url: this.getNewEventPath(),
-      data: {date: date}
+      data: event
     });
   };
   this.getEditEventForm = function(event, addMore){

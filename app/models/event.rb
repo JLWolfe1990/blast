@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   after_update :touch_alert_requests
 
   belongs_to :user
-  has_many :alert_requests
+  has_many :alert_requests, autosave: true
   accepts_nested_attributes_for :alert_requests
 
   validates :title, presence: true
@@ -17,12 +17,13 @@ class Event < ActiveRecord::Base
     attr.each do |array|
       if elem = alert_requests[array[0].to_i]
         if array[1].values.include?('remove')
-          alert_requests[array[0].to_i].destroy
+          alert_requests[array[0].to_i].destroy!
         else
-          alert_requests[array[0].to_i].update_attributes array[1]
+          alert_requests[array[0].to_i].update_attributes! array[1]
         end
       else
-        alert_requests.create array[1]
+        self.save!
+        alert_requests.create! array[1]
       end
     end
   end

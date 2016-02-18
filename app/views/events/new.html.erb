@@ -5,9 +5,8 @@
       <h4 class="modal-title" id="newEventLabel">New Event</h4>
     </div>
     <div class="modal-body">
-      <div class="formDrop">
-        <%= render partial: "form" %>
-      </div>
+      <%= render partial: "form" %>
+      <a href="#" onclick="addAlertRequest('new')"><%= @event.alert_requests.length > 0 ? 'Add More' : 'Add an Alert' %></a>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

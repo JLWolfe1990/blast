@@ -9,10 +9,10 @@ class EventSerializer < ApplicationSerializer
   end
 
   def edit_path
-    edit_event_path(object.id)
+    object.try(:persisted?) ? edit_event_path(object.id) : ""
   end
 
   def update_path
-    event_path(object.id)
+    object.try(:persisted?) ? event_path(object.id) : ""
   end
 end

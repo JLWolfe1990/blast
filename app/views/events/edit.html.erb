@@ -5,8 +5,10 @@
       <h4 class="modal-title">Edit Event</h4>
     </div>
     <div class="modal-body">
-      <%= render partial: "form" %>
-      <a href="#" onclick="addAlertRequest('<%= events_path(@event) %>')">Add More</a>
+      <div class="form-drop">
+        <%= render partial: "form" %>
+        <a href="#" onclick="addAlertRequest('edit')"><%= @event.alert_requests.length > 0 ? 'Add More' : 'Add an Alert' %></a>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

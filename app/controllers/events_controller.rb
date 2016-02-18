@@ -9,7 +9,18 @@ class EventsController < ActionController::Base
 
   def update
     @event = Event.find(params.fetch(:id))
-    if @event.update_attributes(object_params)
+
+    saved = true
+    ActiveRecord::Base.transaction do
+      begin
+        @event.update_attributes! object_params
+      rescue Exception => e
+        saved = false
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if saved
       render json: @event, root:false
     else
       render 'edit', layout:false
@@ -18,12 +29,25 @@ class EventsController < ActionController::Base
 
   def new
     @event = Event.new user: current_user, date: params[:date]
+    if params[:adding_alert_requests]
+      @event.alert_requests.build
+    end
     render 'new', layout:false
   end
 
   def create
-    @event = Event.new object_params
-    if @event.save
+    created = true
+    ActiveRecord::Base.transaction do
+      begin
+        @event = Event.new object_params
+        @event.alert_requests.map(&:save)
+      rescue ActiveRecord::RecordInvalid
+        created = false
+        raise ActiveRecord::Rollback
+      end
+    end
+    #todo: check fail
+    if created
       render json: @event, root:false
     else
       render 'new', layout:false
