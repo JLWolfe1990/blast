@@ -7,7 +7,7 @@
     <div class="modal-body">
       <div class="form-drop">
         <%= render partial: "form" %>
-        <a href="#" onclick="addAlertRequest('edit')"><%= @event.alert_requests.length > 0 ? 'Add More' : 'Add an Alert' %></a>
+        <%= render partial: 'add_more_button', locals: {onclick: "addAlertRequest('edit')"} %>
       </div>
     </div>
     <div class="modal-footer">

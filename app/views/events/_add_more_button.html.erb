@@ -1,0 +1,3 @@
+<% unless @event.alert_requests.last.try(:new_record?) %>
+  <a href="#" onclick="<%= onclick %>"><%= !@event.alert_requests.empty? ? 'Add More' : 'Add an Alert' %></a>
+<% end %>
