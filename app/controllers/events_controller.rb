@@ -46,8 +46,7 @@ class EventsController < ActionController::Base
         raise ActiveRecord::Rollback
       end
     end
-    #todo: check fail
-    if created
+    if @event.save && created
       render json: @event, root:false
     else
       render 'new', layout:false
