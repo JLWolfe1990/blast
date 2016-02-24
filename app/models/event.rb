@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   after_update :touch_alert_requests
 
   belongs_to :user
-  has_many :alert_requests, autosave: true
+  has_many :alert_requests, autosave: true, dependent: :destroy
   accepts_nested_attributes_for :alert_requests
 
   validates :title, presence: true
