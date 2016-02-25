@@ -59,6 +59,7 @@ var Calendar = function Calendar(initObject) {
     });
   };
   this.resize = function(){
+    this.getSourceElement().width( $('body').width() -$('.nav-left').width() - 20);
     return this.getSourceElement().fullCalendar('option', 'height', $('.nav-left').height());
   };
 
