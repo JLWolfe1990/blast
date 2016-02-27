@@ -1,4 +1,4 @@
-class QueueAlerts
+class ProcessAlerts
   @queue = :alert
 
   def self.perform()
