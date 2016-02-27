@@ -21,6 +21,9 @@ gem 'devise'
 gem 'font-awesome-rails'
 gem 'simple_form'
 gem 'active_model_serializers'
+gem 'resque'
+gem 'resque-web', require: 'resque_web'
+gem 'resque-scheduler'
 
 group :development, :test do
   gem 'byebug'
