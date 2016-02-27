@@ -1,4 +1,5 @@
-if ENV["REDISCLOUD_URL"]
+if Rails.env.production?
   uri = URI.parse(ENV["REDISCLOUD_URL"])
-  $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  Resque.redis = REDIS
 end
