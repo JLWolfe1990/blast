@@ -24,7 +24,6 @@ gem 'active_model_serializers'
 gem 'redis'
 gem 'resque'
 gem 'resque-web', require: 'resque_web'
-gem 'resque-scheduler'
 
 group :development, :test do
   gem 'byebug'
