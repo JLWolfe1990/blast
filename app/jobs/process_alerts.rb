@@ -3,7 +3,7 @@ class ProcessAlerts
 
   def self.perform()
     puts "Queuing #{Date.today.to_s(:db)}'s alerts'"
-    AlertRequest.where( offset_date: Date.today ).each do |ar|
+    AlertRequest.not_sent.each do |ar|
       Email.send! ar.id
     end
   end

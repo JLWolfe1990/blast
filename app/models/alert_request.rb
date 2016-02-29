@@ -24,12 +24,29 @@ class AlertRequest < ActiveRecord::Base
     ]
   end
 
+  def self.not_sent
+    find_by_sql(
+      "SELECT ar1.*
+       FROM events INNER JOIN ( SELECT alert_requests.*
+                                FROM alert_requests
+                                WHERE alert_requests.id NOT IN ( SELECT DISTINCT alerts.alert_request_id
+                                                                 FROM alerts
+                                                                 WHERE alerts.type in ('Email') AND alerts.sent_at > '#{Date.today.beginning_of_year.to_s(:db)}')) as ar1 ON ar1.event_id = events.id
+       WHERE events.date >= '#{Date.today.to_s(:db)}'"
+
+    )
+  end
+
   def calculated_offset_date
     (event.date.to_time - (offset_in_seconds)).to_date
   end
 
   def days_away
     self.offset_in_seconds / ( 60 * 60 * 24 )
+  end
+
+  def sent?
+    emails.where("alerts.sent_at > '#{Date.today.beginning_of_year.to_s(:db)}'").count > 1 && event.date >= Date.today
   end
 
   private
