@@ -42,3 +42,4 @@ build/
 /tmp
 .idea
 .byebug_history
+/config/development_email_settings.yml

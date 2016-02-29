@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227221651) do
+ActiveRecord::Schema.define(version: 20160229020511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,10 @@ ActiveRecord::Schema.define(version: 20160227221651) do
     t.string   "subject"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
+    t.text     "recipient_emails"
+    t.datetime "sent_at"
+    t.datetime "failed_at"
   end
 
   add_index "alerts", ["alert_request_id"], name: "index_alerts_on_alert_request_id", using: :btree

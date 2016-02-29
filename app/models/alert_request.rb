@@ -5,6 +5,9 @@ class AlertRequest < ActiveRecord::Base
 
   has_one :user, through: :event
 
+  has_many :alerts
+  has_many :emails
+
   validates :offset_in_seconds, presence: true, numericality: true
   validates :event, presence: true
 
@@ -23,6 +26,10 @@ class AlertRequest < ActiveRecord::Base
 
   def calculated_offset_date
     (event.date.to_time - (offset_in_seconds)).to_date
+  end
+
+  def days_away
+    self.offset_in_seconds / ( 60 * 60 * 24 )
   end
 
   private
