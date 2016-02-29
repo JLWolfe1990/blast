@@ -32,7 +32,7 @@ class AlertRequest < ActiveRecord::Base
                                 WHERE alert_requests.id NOT IN ( SELECT DISTINCT alerts.alert_request_id
                                                                  FROM alerts
                                                                  WHERE alerts.type in ('Email') AND alerts.sent_at > '#{Date.today.beginning_of_year.to_s(:db)}')) as ar1 ON ar1.event_id = events.id
-       WHERE events.date >= '#{Date.today.to_s(:db)}'"
+       WHERE events.date >= '#{Date.today.to_s(:db)}' and ar1.offset_date = '#{Date.today.to_s(:db)}'"
 
     )
   end
