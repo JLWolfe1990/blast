@@ -12,7 +12,7 @@
       <div class="slide-menu">
         <ul>
           <li onclick="toggleSlideMenu()"><i class="fa fa-ellipsis-h fa-2x"></i></li>
-          <li><i class="fa fa-sign-out fa-2x" onclick="logout('<%= destroy_user_session_path() %>')"></i><div class="menu-label">Sign Out</div></li>
+          <li onclick="logout('<%= destroy_user_session_path() %>')"><i class="fa fa-sign-out fa-2x"></i><div class="menu-label">Sign Out</div></li>
         </ul>
       </div>
     <% end %>
