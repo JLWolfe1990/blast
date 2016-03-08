@@ -1,9 +1,9 @@
 <%= simple_form_for @event do |f| %>
   <%= f.input :id, as: :hidden %>
-  <%= f.input :date, as: :hidden %>
+  <%= f.input :date, as: :hidden, input_html:{id: 'event_date'} %>
   <%= f.association :user, as: :hidden %>
-  <%= f.input :event_type, as: :select, collection: Event.event_types  %>
-  <%= f.input :title %>
+  <%= f.input :event_type, as: :select, collection: Event.event_types, input_html:{id: 'event_type'}  %>
+  <%= f.input :title, input_html:{id: 'event_title'}%>
   <%= f.simple_fields_for :alert_requests do |ff| %>
     <%= ff.input :id, as: :hidden %>
     <%= ff.input :offset_in_seconds, as: :select, collection: AlertRequest.to_select %>

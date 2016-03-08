@@ -28,8 +28,8 @@ class EventsController < ActionController::Base
   end
 
   def new
-    @event = Event.new user: current_user, date: params[:date]
-    if params[:adding_alert_requests]
+    @event = Event.new object_params.merge(user: current_user)
+    if params.send(:[], :event).send(:[], :adding_alert_requests)
       @event.alert_requests.build
     end
     render 'new', layout:false
