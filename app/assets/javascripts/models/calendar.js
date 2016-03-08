@@ -18,10 +18,14 @@ var Calendar = function Calendar(initObject) {
     if(addAlertRequest) {
       event.adding_alert_requests = addAlertRequest;
     }
+
+    event.event_type = $("#event_type").val();
+    event.title = $("#event_title").val();
+
     return $.ajax({
       method: 'GET',
       url: this.getNewEventPath(),
-      data: event
+      data: {event:event}
     });
   };
   this.getEditEventForm = function(event, addMore){
